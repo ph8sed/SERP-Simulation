@@ -1,0 +1,42 @@
+name: Build Mac Apps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        condition:
+          - condition1
+          - condition2
+          - condition3
+          - condition4
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packages
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build app
+        run: |
+          pyinstaller \
+            --windowed \
+            --add-data "hipparcos-voidmain.csv:." \
+            ${{ matrix.condition }}.py
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.condition }}
+          path: dist/
