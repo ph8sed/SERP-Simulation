@@ -1,3 +1,4 @@
 
-from base_simulation import run_condition
-run_condition(2, 5.8)
+from base_simulation import run_starmap
+
+run_starmap(2)
